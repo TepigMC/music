@@ -13,3 +13,7 @@ func TestFirst(t *testing.T) {
 		t.Error("failed", countme)
 	}
 }
+
+/*func TestNewScale(t *testing.T) {
+	scale := NewScale([]int{0, 2, 4, 5, 7, 9, 11})
+}*/
