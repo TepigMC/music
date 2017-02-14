@@ -5,36 +5,22 @@ import (
 	"testing"
 )
 
-/*func TestFirst(t *testing.T) {
-	countme := 1
-	for i := 1; i < 10; i++ {
-		countme *= i
-	}
-	if countme != 123454 {
-		t.Error("failed", countme)
-	}
-}*/
+var majorDegrees = []int{0, 2, 4, 5, 7, 9, 11}
+var majorIntervals = []int{2, 2, 1, 2, 2, 2, 1}
+var majorScale = Scale{majorDegrees, 12}
 
-func TestIntervals(t *testing.T) {
-	scale := Scale{[]int{0, 2, 4, 5, 7, 9, 11}, 12}
-	expected := []int{2, 2, 1, 2, 2, 2, 1}
-	intervals := scale.Intervals()
-	if !reflect.DeepEqual(intervals, expected) {
-		t.Error("intervals", intervals, "is not equivalent to expected", expected)
-	} else {
-		t.Log("scale.Intervals passes")
+func testCompare(t *testing.T, title string, actual, expected interface{}) {
+	if !reflect.DeepEqual(actual, expected) {
+		t.Errorf("%v: actual %v is not equivalent to expected %v", title, actual, expected)
 	}
 }
 
+func TestIntervals(t *testing.T) {
+	testCompare(t, "scale.Intervals", majorScale.Intervals(), majorIntervals)
+}
+
 func TestDegreesToIntervals(t *testing.T) {
-	degrees := []int{0, 2, 4, 5, 7, 9, 11}
-	expected := []int{2, 2, 1, 2, 2, 2, 1}
-	intervals := degreesToIntervals(degrees, 12)
-	if !reflect.DeepEqual(intervals, expected) {
-		t.Error("intervals", intervals, "is not equivalent to expected", expected)
-	} else {
-		t.Log("degreesToIntervals passes")
-	}
+	testCompare(t, "degreesToIntervals", degreesToIntervals(majorDegrees, 12), majorIntervals)
 }
 
 /*func TestNewScale(t *testing.T) {
