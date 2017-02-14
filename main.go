@@ -4,10 +4,6 @@ import "fmt"
 
 func main() {
 	fmt.Println("hello Go")
-	i := 1
-	fmt.Println(i)
-	scale := NewScale([]int{0, 2, 4, 5, 7, 9, 11})
-	fmt.Println(scale)
 }
 
 type Scale struct {
@@ -19,11 +15,23 @@ func NewScale(degrees []int) *Scale {
 	return &Scale{degrees: degrees, span: 12}
 }
 
-/*func (scale *Scale) Intervals() []int {
-	// TS: return this._notes.map((note, i) => (this._notes[i + 1] || this._range) - note);
-	intervals := make([]int, scale.degrees.length)
-	for i, degree := range scale.degrees {
-		intervals = append(intervals, (scale.degrees[i+1] > scale.span ? scale.degrees[i+1] : scale.span) - degree)
+func (scale *Scale) Intervals() []int {
+	return degreesToIntervals(scale.degrees, scale.span)
+}
+
+// If degrees are not ascending, it adds the span until it is
+func degreesToIntervals(degrees []int, span int) []int {
+	// TS: return this._degrees.map((degree, i) => (this._degrees[i + 1] || this._span) - degree);
+	intervals := make([]int, len(degrees))
+	for i, degree := range degrees {
+		var nextDegree int
+		if i+1 < len(degrees) {
+			nextDegree = degrees[i+1]
+		}
+		for nextDegree < degree {
+			nextDegree += span
+		}
+		intervals[i] = nextDegree - degree
 	}
 	return intervals
-}*/
+}
